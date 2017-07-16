@@ -27,11 +27,11 @@ def env_int(env, default):
         return default
 
 debug = env_bool('DEBUG', debug)
-db_host = env_str('DB_HOST', db_host)
-db_username = env_str('DB_USERNAME', db_username)
-db_password = env_str('DB_PASSWORD', db_password)
-db_dbname = env_str('DB_DBNAME', db_dbname)
-db_port = env_int('DB_PORT', db_port)
+#db_host = env_str('DB_HOST', db_host)
+#db_username = env_str('DB_USERNAME', db_username)
+#db_password = env_str('DB_PASSWORD', db_password)
+#db_dbname = env_str('DB_DBNAME', db_dbname)
+#db_port = env_int('DB_PORT', db_port)
 
 #Available languages
 LANGUAGES = {
