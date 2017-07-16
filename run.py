@@ -13,7 +13,6 @@ import json
 import hashlib
 import sys
 
-
 ###### App
 app = Flask(__name__)
 app.debug = config.debug
@@ -35,71 +34,72 @@ unspecifiedValue = "-"
 
 @app.route('/')
 def home():
-    return render_template('home.html')
-
-@app.route('/fp')
-def fp():
+    #return render_template('home.html')
     return render_template('fp.html', files=files, variables=variables, headers=request.headers)
 
-@app.route('/fpNoJS')
-def fpNoJS():
-
-    # If cookie is not present, we store
-    # the headers into the database
-    if "fpcentral" not in request.cookies:
-        headers = {}
-        # Transformation from array of tuples to dictionary
-        for key, value in request.headers:
-            headers[key] = value
-        db.storeFP(headers, False)
-
-    #Get total number of fingerprints
-    nbTotal = db.getNumberLifetimeFP()
-    #Get percentages of all HTTP headers
-    headersPer = []
-    for header in request.headers:
-        if header[0] != "Cookie":
-            headersPer.append(header+(db.getNumberFP({'name':header[0],"value":header[1]})*100/nbTotal,))
-
-    resp = make_response(render_template('fpNoJS.html', headers=headersPer, nbFP = nbTotal))
-
-    #We store a cookie if not present
-    if "fpcentral" not in request.cookies:
-        resp.set_cookie('fpcentral', 'true', expires=datetime.now() + timedelta(days=config.cookiesDays))
-
-    return resp
-
-@app.route('/tor')
-def tor():
-    return render_template('tor.html')
-
-@app.route('/globalStats')
-def globalStats():
-    return render_template('globalStats.html',
-                           totalFP=db.getNumberLifetimeFP(),
-                           epochFP=db.getNumberLastDaysFP(90),
-                           dailyFP=db.getNumberDailyFP(),
-                           lang=db.getValues({"name":"Accept-Language"})
-                           )
-
-@app.route('/customStats')
-def customStats():
-    return render_template('customStats.html',
-                            tags=tags,
-                            listOfVariables=variablesWithHTTP,
-                          )
-
-@app.route('/faq')
-def faq():
-    return render_template('faq.html',definitions=definitions)
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-@app.route('/store', methods=['POST'])
-def store():
-    return json.dumps(db.storeFP(request.data,True))
+#@app.route('/fp')
+#def fp():
+#    return render_template('fp.html', files=files, variables=variables, headers=request.headers)
+#
+#@app.route('/fpNoJS')
+#def fpNoJS():
+#
+#    # If cookie is not present, we store
+#    # the headers into the database
+#    if "fpcentral" not in request.cookies:
+#        headers = {}
+#        # Transformation from array of tuples to dictionary
+#        for key, value in request.headers:
+#            headers[key] = value
+#        db.storeFP(headers, False)
+#
+#    #Get total number of fingerprints
+#    nbTotal = db.getNumberLifetimeFP()
+#    #Get percentages of all HTTP headers
+#    headersPer = []
+#    for header in request.headers:
+#        if header[0] != "Cookie":
+#            headersPer.append(header+(db.getNumberFP({'name':header[0],"value":header[1]})*100/nbTotal,))
+#
+#    resp = make_response(render_template('fpNoJS.html', headers=headersPer, nbFP = nbTotal))
+#
+#    #We store a cookie if not present
+#    if "fpcentral" not in request.cookies:
+#        resp.set_cookie('fpcentral', 'true', expires=datetime.now() + timedelta(days=config.cookiesDays))
+#
+#    return resp
+#
+#@app.route('/tor')
+#def tor():
+#    return render_template('tor.html')
+#
+#@app.route('/globalStats')
+#def globalStats():
+#    return render_template('globalStats.html',
+#                           totalFP=db.getNumberLifetimeFP(),
+#                           epochFP=db.getNumberLastDaysFP(90),
+#                           dailyFP=db.getNumberDailyFP(),
+#                           lang=db.getValues({"name":"Accept-Language"})
+#                           )
+#
+#@app.route('/customStats')
+#def customStats():
+#    return render_template('customStats.html',
+#                            tags=tags,
+#                            listOfVariables=variablesWithHTTP,
+#                          )
+#
+#@app.route('/faq')
+#def faq():
+#    return render_template('faq.html',definitions=definitions)
+#
+#@app.route('/about')
+#def about():
+#    return render_template('about.html')
+#
+#@app.route('/store', methods=['POST'])
+#def store():
+#    return json.dumps(db.storeFP(request.data,True))
 
 ###### Babel
 babel = Babel(app)

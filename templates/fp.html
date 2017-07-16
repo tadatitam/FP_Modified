@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% set active_page = "fp" %}
 
-{% block title %}
-    {{ _('View my fingerprint') }} - FP Central
-{% endblock %}
-
 {%  block styles %}
     {{ super() }}
     <link href="{{url_for('static', filename='css/fp.css')}}" rel="stylesheet">
@@ -13,94 +9,6 @@
 {% block content %}
 
     <h1>{{ _('My fingerprint') }}</h1>
-    <p>
-        {{ _('On this page, you can visualize your own browser fingerprint. You can run a series of tests and see what your browser engine returns in the tables below.
-        The server can also computes statistics to help you understand how unique your fingerprint can be with respect to other users.
-        The <a href="/faq" target="_blank">FAQ page <i class="fa fa-external-link" aria-hidden="true"></i></a> gives a detailed list of
-        attributes that are collected along with links to documentation.') }}
-    </p>
-    <div data-intro="Thank you for following this quick introduction! You can follow it again at anytime by clicking on the 'Help' button during your visit.
-                     You can continue the tour to other pages bly clicking on 'Continue the tour'." data-step="9">
-        {{ _('First visit?') }} &nbsp;
-        <button type="button" class="btn btn-default" onclick="startTour()"
-               data-intro="Hello! Here is a quick introduction to the 'My fingerprint' page!" data-step="1">
-            {{ _('Take the tour') }}
-        </button>
-    </div>
-
-    <div data-intro="Here is the dashboard. It gives you control of what runs on this page and what is sent to our server." data-step="2">
-        <h1>Dashboard</h1>
-        <a id="runBtn" class="btn btn-info" type="button" onclick="api.run()"
-           data-intro="Click on this button to run the JavaScript tests and see the values returned by your browser."
-           data-step="6">
-            <span class="badge">1</span> <strong>{{ _('Run JavaScript tests') }}</strong>  <i id="runOk" class="fa"></i>
-        </a>
-        <a id="sendBtn" class="btn btn-info disabled" type="button" onclick="api.send()"
-           data-intro="After reviewing the values in the JavaScript table below, you can send your complete fingerprint to our server so that it is stored for statistical purposes. This process is completely
-                        anonymous as no PII (Personally identifiable information) are stored. The collected data will help us understand the diversity of browser fingerprints and it will provide developers
-                        insight into how to develop and design good defenses against fingerprint tracking."
-           data-step="7">
-            <span class="badge">2</span> <strong>{{ _('Send to server') }}</strong> <i id="sendOk" class="fa"></i>
-        </a>
-        <a id="statsBtn" class="btn btn-info disabled" type="button" onclick="api.getNumberFP()"
-           data-intro="The final action of the dashboard lets you see how your browser fingerprint compares with other ones. For each attribute, you will see the percentage of
-                      fingerprints who share the exact same value as yours."
-           data-step="8">
-            <span class="badge">3</span> <strong>{{ _('Get statistics') }}</strong> <i id="statsOk" class="fa"></i>
-        </a>
-    </div>
-
-    <div id="acceptableLegend" style="display: none;">
-        <h2>{{ _('Acceptable values legend') }}</h2>
-        <h3><i class="fa fa-check fa-border" style="color:#B9D98A"></i> {{ _('Acceptable value') }}</h3>
-        {{ _('The displayed value is "acceptable" (i.e. it is an expected one and it follows Tor guidelines).
-        The majority of users shares this exact same value.') }}
-        <br>
-        <h3><i class="fa fa-times fa-border" style="color:#FF8080"></i> {{ _('Unacceptable value') }}</h3>
-        {{ _('The displayed value is not "acceptable" and makes your browser vulnerable to tracking.
-        The &nbsp; <i id="screen.widthPop" class="fa fa-info-circle"></i> &nbsp; icon will give you information on the most popular value shared by users.
-        The &nbsp; <i class="fa fa-question-circle"></i> &nbsp; icon may also be present to direct you to a page with instructions on what to do to make this attribute acceptable.
-        A non-acceptable value can be caused by a misconfiguration of the browser. In that case, regenerating a new Tor identity can sometimes fix the problem. However, it can also come from
-        a genuine difference between TBB browsers and it should be investigated by Tor developers. You can report the problem on the Tor bug tracker by
-        <a href="https://trac.torproject.org/projects/tor" target="_blank"> opening a ticket  <i class="fa fa-external-link" aria-hidden="true"></i></a>.')}}
-        <br>
-        <h3><i class="fa fa-minus fa-border" style="color:#A3A3C2"></i> {{ _('Unchecked value') }}</h3>
-        {{ _('The attribute is not checked and can take any value.') }}
-
-        <div id="acceptableSummary">
-            <h2>Acceptable Values Summary</h2>
-        </div>
-    </div>
-
-
-    <br>
-
-    <h1 data-intro="Below are the results of the fingerprinting process. Each table is composed of three columns: the name of the attribute, the value of this attribute collected from your browser and statistics on how popular or widespread your sent value is.
-                 The higher the percentages are, the better it is for your online privacy. If you are using the Tor browser, you can even get some extra information to see if returned values are acceptable or not (i.e. they are normal and they
-                 follow Tor guidelines). The 'Download as JSON' button becomes active as soon as all tests are run." data-step="3">
-        {{ _('Results') }} &nbsp;
-        <a id="dlBtn" type="button" class="btn btn-default btn-md disabled">
-            <i class="fa fa-download" aria-hidden="true"></i> {{ _('Download as JSON') }}
-        </a>
-        <div id="percSelection" style="display: none;">
-            <div id="tagSwitch" class="btn-group" data-toggle="buttons">
-                <label id="withTags" class="btn btn-default active">
-                    <input type="radio" checked="checked"/> {{ _('Relevent fingerprints') }}
-                </label>
-                <label id="withoutTags" class="btn btn-default">
-                    <input type="radio"/> {{ _('All fingerprints') }}
-                </label>
-            </div>
-            <div id="limitSwitch" class="btn-group" data-toggle="buttons">
-                <label id="withoutLimit" class="btn btn-default active">
-                    <input type="radio" checked="checked"/> {{ _('All time') }}
-                </label>
-                <label id="withLimit" class="btn btn-default">
-                    <input type="radio"/> {{ _('Only past 90 days') }}
-                </label>
-            </div>
-        </div>
-    </h1>
     <div class="panel panel-default" data-intro="You will find here attributes related to HTTP headers. The values are already present since they were sent to our server when you first connected to this website." data-step="4">
         <div class="panel-heading"><h2>HTTP headers</h2></div>
         <table id="httpTable" class="table table-striped table-hover tableCustom hideAcc hidePerLimit hidePerTotal hidePerTotalLimit" xmlns="http://www.w3.org/1999/html">
