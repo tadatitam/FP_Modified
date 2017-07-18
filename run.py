@@ -18,9 +18,14 @@ app = Flask(__name__)
 app.debug = config.debug
 
 attributes = Blueprint('site', __name__, static_url_path='', static_folder='fingerprint/attributes',url_prefix='/fp')
+#attributes = Blueprint('site', __name__, static_url_path='', static_folder='fingerprint/attributes',url_prefix='/fp')
 app.register_blueprint(attributes)
 
 files,variables = get_files_and_variables()
+
+#print(files)
+#print(variables)
+
 variablesWithHTTP = [["User-Agent"],["Accept"],["Accept-Language"],["Accept-Encoding"],["Connection"]]
 variablesWithHTTP.extend(variables)
 definitions = get_definitions()
@@ -34,7 +39,6 @@ unspecifiedValue = "-"
 
 @app.route('/')
 def home():
-    #return render_template('home.html')
     return render_template('fp.html', files=files, variables=variables, headers=request.headers)
 
 #@app.route('/fp')

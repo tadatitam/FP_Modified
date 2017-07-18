@@ -2,7 +2,9 @@ import os
 import json
 
 def read_JSON_file(path):
+    print(path)
     with open(path) as json_file:
+        print(json_file)
         json_data = json.load(json_file)
     return json_data
 

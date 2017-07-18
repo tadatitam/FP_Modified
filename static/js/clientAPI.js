@@ -325,12 +325,6 @@ api.postRun = function(){
     //Storing the current fingerprint inside localStorage
     localStorage.setItem(fpTemp, jsonFP);
 
-    //Enabling the send and download button
-    document.getElementById("sendBtn").classList.remove("disabled");
-    dlBtnTransition(jsonFP);
-
-    //Disabling the run button and providing visual feedback to the user
-    btnTransition("run");
 
     //Set up a cookie to indicate the time of the latest test
     var expiration_date = new Date();

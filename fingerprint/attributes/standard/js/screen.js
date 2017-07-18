@@ -1,15 +1,16 @@
 (function() {
     api.register("screen", function () {
-        return {
-            "width": window.screen.width,
-            "height": window.screen.height,
-            "depth": window.screen.colorDepth,
-            "availTop": window.screen.availTop,
-            "availLeft": window.screen.availLeft,
-            "availHeight": window.screen.availHeight,
-            "availWidth": window.screen.availWidth,
-            "left": window.screen.left,
-            "top": window.screen.top
-        };
+        var screen = "";
+        screen += "Width: " + window.screen.width + "; ";
+        screen += "Height: " + window.screen.height + "; ";
+        screen += "Depth: " + window.screen.colorDepth + "; ";
+        screen += "AvailTop: " + window.screen.availTop + "; ";
+        screen += "AvailLeft: " + window.screen.availLeft + "; ";
+        screen += "AvailHeight: " + window.screen.availHeight + "; ";
+        screen += "AvailWidth: " + window.screen.availWidth + "; ";
+        screen += "Left: " +   window.screen.left + "; ";
+        screen += "Top: " +  window.screen.top + "; ";
+        
+        return screen;
     });
 })();
