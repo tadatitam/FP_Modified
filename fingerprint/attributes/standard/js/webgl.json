@@ -1,0 +1,7 @@
+{
+  "name" : "webgl",
+  "description" : "Information of the webgl of the user's browser",
+  "files" : ["webgl.js"],
+  "variables" :["webGL Fingerprint"], 
+  "hash" : "True"
+}

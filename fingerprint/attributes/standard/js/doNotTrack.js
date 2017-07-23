@@ -9,7 +9,7 @@
     } else {
         doNotTrack = "NC";
     }
-    api.register("dnt", function () {
+    api.register("DoNotTrack Enabled", function () {
         return doNotTrack;
     });
 })();

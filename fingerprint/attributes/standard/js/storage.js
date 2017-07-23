@@ -27,6 +27,10 @@
         domSessionStorage = "no";
     }
     api.register("storage", function() {
-        return {"local":domLocalStorage, "session":domSessionStorage};
+        var storageSummary = "";
+        storageSummary += "dom local storage: " + domLocalStorage + "; ";
+        storageSummary += "dom session storage: " + domSessionStorage
+        return storageSummary;
+
     });
 })();
