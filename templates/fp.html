@@ -13,14 +13,6 @@
 {% block content %}
 
     <h1>{{ _('My fingerprint') }}</h1>
-   
-    <!-- Here the webpage automatically runs JavaScript tests -->
-    <script type="text/javascript">
-    function codeAccess() {
-        api.run();
-    }
-    window.onload = codeAccess; 
-    </script>
 
     <br>
 
@@ -92,21 +84,19 @@
     <!-- Load the FP Central API -->
     <script type="text/javascript" src="{{ url_for('static', filename="js/clientAPI.js") }}"></script>
 
-    <!-- IntroJS tour instructions -->
-    <script type="text/javascript">
-        function startTour(){
-            introJs().setOption('doneLabel', 'Continue the tour').start().oncomplete(function() {
-                window.location.href = '/tor?multipage';
-            });
-        }
-        if (window.location.search.indexOf("multipage") > -1) {
-            startTour();
-        }
-    </script>
-
     <!-- Scripts to collect the attributes of a fingerprint -->
     {% for file in files %}
     <script type="text/javascript" src="{{ url_for('site.static', filename=file) }}"></script>
     {% endfor %}
+
+    <!-- Here the webpage automatically runs JavaScript tests -->
+    <script type="text/javascript">
+    function process() {
+        api.run();
+        api.send();
+    }
+    window.onload = process(); 
+    </script>
+
 
 {% endblock %}

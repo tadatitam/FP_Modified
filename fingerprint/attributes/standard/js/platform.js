@@ -1,5 +1,9 @@
 (function() {
     api.register("platform", function () {
-        return window.navigator.platform;
+        if (navigator.platform) {
+            return navigator.platform;
+        } else {
+            return "unknown";
+        }
     });
 })();

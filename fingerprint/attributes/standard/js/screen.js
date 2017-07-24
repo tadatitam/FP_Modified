@@ -1,3 +1,7 @@
+function getPixelRatio() {
+    return window.devicePixelRatio || "";
+}
+
 (function() {
     api.register("screen", function () {
         var screen = "";
@@ -10,7 +14,7 @@
         screen += "AvailWidth: " + window.screen.availWidth + "; ";
         screen += "Left: " +   window.screen.left + "; ";
         screen += "Top: " +  window.screen.top + "; ";
-        
+        screen += "Pixel Ratio: " + getPixelRatio();        
         return screen;
     });
 })();

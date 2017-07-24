@@ -1,36 +1,25 @@
+
+function hasSessionStorage() {
+  try {
+    return !!window.sessionStorage ? "yes" : "no";
+  } catch(e) {
+    return "yes"; // SecurityError when referencing it means it exists
+  }
+}
+// https://bugzilla.mozilla.org/show_bug.cgi?id=781447
+function hasLocalStorage() {
+  try {
+    return !!window.localStorage ? "yes" : "no";
+  } catch(e) {
+    return "yes"; // SecurityError when referencing it means it exists
+  }
+}
+
 (function() {
-    try {
-        localStorage.fp = "test";
-        sessionStorage.fp = "test";
-    } catch (ex) {
-    }
-
-    try {
-        domLocalStorage = "";
-        if (localStorage.fp == "test") {
-            domLocalStorage = "yes";
-        } else {
-            domLocalStorage = "no";
-        }
-    } catch (ex) {
-        domLocalStorage = "no";
-    }
-
-    try {
-        domSessionStorage = "";
-        if (sessionStorage.fp == "test") {
-            domSessionStorage = "yes";
-        } else {
-            domSessionStorage = "no";
-        }
-    } catch (ex) {
-        domSessionStorage = "no";
-    }
     api.register("storage", function() {
         var storageSummary = "";
-        storageSummary += "dom local storage: " + domLocalStorage + "; ";
-        storageSummary += "dom session storage: " + domSessionStorage
+        storageSummary += "dom local storage: " + hasLocalStorage() +  "; ";
+        storageSummary += "dom session storage: " + hasSessionStorage();
         return storageSummary;
-
     });
 })();

@@ -28,6 +28,10 @@ var perColumns = ["Per","PerLimit","PerTotal","PerTotalLimit"];
 function btnTransition(name){
     //Disabling the run button and providing feedback to the user
     var btn = document.getElementById(name+"Btn");
+    if (btn == null) {
+        return;
+    }
+    
     btn.classList.add("disabled");
     btn.classList.remove("btn-info");
     btn.classList.add("btn-success");
@@ -199,6 +203,7 @@ api.addValue = function(name, result){
             }
         } else {
             document.getElementById(name + value).innerHTML = result;
+        
         }
     }
 };
@@ -342,12 +347,17 @@ api.send = function(){
             if(xhr.status == 200) {
                 //Storing the tags even if empty
                 var res = JSON.parse(xhr.responseText);
-                tags = res.tags;
+                if (res == null) {
+                    tags = null;
+                } else {
+                    tags = res.tags;
+                }
                 localStorage.setItem(sendTemp, JSON.stringify(tags));
 
                 //Enabling the stats button
-                document.getElementById("statsBtn").classList.remove("disabled");
-
+                if (document.getElementById("statsBtn") != null) {
+                    document.getElementById("statsBtn").classList.remove("disabled");
+                }
                 //Disabling the send button and providing visual feedback to the user
                 btnTransition("send");
 

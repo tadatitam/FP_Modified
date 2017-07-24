@@ -266,6 +266,10 @@ function x64hash128(key, seed) {
 
 (function() {
     api.register("Hash of Canvas Fingerprint", function () {
-        return x64hash128(getCanvasFP());
+        try {
+            return x64hash128(getCanvasFP());
+        } catch (e) {
+            return "error";
+        }
     });
 })();

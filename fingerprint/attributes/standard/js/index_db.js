@@ -1,5 +1,9 @@
 (function() {
     api.register("indexedDB", function () {
-        return !!window.indexedDB ? "yes" : "no";
+        try {
+            return !!window.indexedDB ? "yes" : "no";
+        } catch (e) {
+            return "yes"; // SecurityError when referencing it means it exists.
+        }
     });
 })();

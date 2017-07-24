@@ -154,25 +154,29 @@ function getWebglFp() {
 
 (function() {
     api.register("webGL Fingerprint", function () {
-        var result = "";
-        if (!isWebGlSupported()) {
-            result += "hash of webGL data: webGL not supported; "
-        } else {
-            result += "hash of webGL data: " + x64hash128(getWebglFp()) + "; ";
-        }
+        try {
+            var result = "";
+            if (!isWebGlSupported()) {
+                result += "hash of webGL data: webGL not supported; "
+            } else {
+                result += "hash of webGL data: " + x64hash128(getWebglFp()) + "; ";
+            }
 
-        canvas = document.createElement("canvas");
-        var ctx = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-        if(ctx.getSupportedExtensions().indexOf("WEBGL_debug_renderer_info") >= 0) {
-            webGLVendor = ctx.getParameter(ctx.getExtension('WEBGL_debug_renderer_info').UNMASKED_VENDOR_WEBGL);
-            webGLRenderer = ctx.getParameter(ctx.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL);
-        } else {
-            webGLVendor = "Not supported";
-            webGLRenderer = "Not supported";
-        }
+            canvas = document.createElement("canvas");
+            var ctx = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+            if(ctx.getSupportedExtensions().indexOf("WEBGL_debug_renderer_info") >= 0) {
+                webGLVendor = ctx.getParameter(ctx.getExtension('WEBGL_debug_renderer_info').UNMASKED_VENDOR_WEBGL);
+                webGLRenderer = ctx.getParameter(ctx.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL);
+            } else {
+                webGLVendor = "Not supported";
+                webGLRenderer = "Not supported";
+            }
 
-        result += "webGL Vendor: " + webGLVendor + "; ";
-        result += "webGL Renderer: " + webGLRenderer + ";";
-        return result;
+            result += "webGL Vendor: " + webGLVendor + "; ";
+            result += "webGL Renderer: " + webGLRenderer + ";";
+            return result;
+        } catch (e) {
+            return "error";
+        }
     });
 })();
